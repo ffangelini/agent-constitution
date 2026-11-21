@@ -1,9 +1,13 @@
 import { createRequire } from 'node:module';
+import path from 'node:path';
 import fs from 'node:fs';
 const require = createRequire(import.meta.url);
 
+// Entry resolves to <pkg>/.opencode/plugins/ponytail.mjs; the package root is two levels up.
+const ponyRoot = path.resolve(path.dirname(require.resolve('@dietrichgebert/ponytail')), '../..');
+
 function loadPonytail(mode) {
-  try { const { getPonytailInstructions } = require('/home/fed/ponytail/hooks/ponytail-instructions'); return getPonytailInstructions(mode) || null; } catch { return null; }
+  try { const { getPonytailInstructions } = require(path.join(ponyRoot, 'hooks/ponytail-instructions')); return getPonytailInstructions(mode) || null; } catch { return null; }
 }
 // Per-agent ponytail mode, mirroring each agent file's declared intent.
 // reader / watchdog stay off (null = no injection).

@@ -10,13 +10,31 @@ Versioned global rules, agent definitions, commands and the navigation skill for
    git clone https://github.com/ffangelini/agent-constitution ~/agent-constitution
    ```
 
-2. Load the global rules in `~/.config/opencode/opencode.json`, preserving every existing key:
+2. Install dependencies (the ponytail plugin):
+
+   ```sh
+   cd ~/agent-constitution && npm install
+   ```
+
+3. Load the global rules in `~/.config/opencode/opencode.json`, preserving every existing key:
 
    ```json
    "instructions": ["~/agent-constitution/RULES.md"]
    ```
 
-3. Symlink into the global config locations:
+   And point the plugins entry at the copy inside this repo, so no separate
+   ponytail checkout is needed on the machine:
+
+   ```json
+   "plugins": [
+     "{env:HOME}/agent-constitution/node_modules/@dietrichgebert/ponytail/.opencode/plugins",
+     "github:vercel/vercel-plugin"
+   ]
+   ```
+
+   OpenCode expands `{env:HOME}` in plugin paths; `~` does not work there.
+
+4. Symlink into the global config locations:
 
    ```sh
    ln -sfn ~/agent-constitution/agents ~/.config/opencode/agents
