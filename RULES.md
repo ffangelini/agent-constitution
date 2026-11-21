@@ -8,4 +8,5 @@ End every reply with 1–2 lines: what was skipped or not checked, and any risk.
 
 ## Navigation
 
+For code lookups, call `jcodemunch_guide` and use symbol tools; keep markdown and docs on plain read/grep.
 Use the repo-root AGENTS.md when present; it holds only entry points, main dirs and test locations. If absent, say so and continue. Run the project-map skill only when skill access is allowed. Never put behavioral rules there — global rules here win.

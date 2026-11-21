@@ -43,6 +43,42 @@ Versioned global rules, agent definitions, commands and the navigation skill for
    ln -sfn ~/agent-constitution/skills/project-map ~/.agents/skills/project-map
    ```
 
+5. Set up the jcodemunch MCP server for symbol-aware code lookups. Add the server
+   under `mcp.servers` in `~/.config/opencode/opencode.json` (leave the existing
+   firecrawl server untouched):
+
+   ```json
+   "mcp": {
+     "servers": {
+       "jcodemunch": {
+         "type": "local",
+         "command": ["uvx", "jcodemunch-mcp==1.108.476"]
+       }
+     }
+   }
+   ```
+
+   `uvx` comes from [`uv`](https://docs.astral.sh/uv/), so `uv` must be installed
+   and on your `PATH`. For local, non-commercial use the free license is enough —
+   no license key to buy or configure.
+
+   The server is global and all agents get its tools by default. Deny them only
+   for the agents that should not have them: append the following to the
+   `permissions:` list in `agents/reader.md` and `agents/watchdog.md`:
+
+   ```yaml
+     - action: jcodemunch_*
+       resource: "*"
+       effect: deny
+   ```
+
+   All other agents (coordinator, worker, worker-fast, planner-hard) keep access.
+   Do not add a global `jcodemunch_*` deny to `opencode.json` — a global deny
+   hides the tools from *every* agent, even ones with a per-agent allow rule.
+
+   Do not run `jcodemunch-mcp init` — it would write project files and hooks. No
+   `--policy` or `--guidance` flags either. Verify with `opencode mcp list`.
+
 ## Local AGENTS.md
 
 `~/.config/opencode/AGENTS.md` is machine policy only (browser/desktop guard scope). Never put behavioral rules there — behavioral rules live in `RULES.md`, navigation lives in a repo-root `AGENTS.md`.

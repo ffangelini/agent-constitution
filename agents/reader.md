@@ -28,6 +28,9 @@ permissions:
   - action: opencode_read_mcp_resource
     resource: "*"
     effect: deny
+  - action: jcodemunch_*
+    resource: "*"
+    effect: deny
 ---
 
 Ponytail stays off for this agent — do not run `/ponytail` (it flips global state for parallel sessions).
